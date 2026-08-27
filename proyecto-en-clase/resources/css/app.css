@@ -9,3 +9,98 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+/* ========== Custom Professional Styles ========== */
+:root{
+    --bg:#0f1724;
+    --card:#0b1220;
+    --muted:#9aa4b2;
+    --accent:#06b6d4;
+    --accent-600:#0891b2;
+    --white:#ffffff;
+    --radius:10px;
+    --container:1100px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    font-family: var(--font-sans), system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    margin:0;
+    background: linear-gradient(180deg, #071023 0%, #071428 60%);
+    color:var(--white);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+.container{max-width:var(--container);margin:0 auto;padding:1rem}
+
+/* Typography */
+h1,h2,h3,h4{margin:0 0 .5rem;color:var(--white);line-height:1.1}
+h1{font-size:2rem;font-weight:700}
+h2{font-size:1.5rem;font-weight:600}
+p{color:var(--muted);margin:0 0 1rem}
+
+/* Header / Nav */
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:.75rem 0}
+.navbar-brand{font-weight:700;color:var(--white);text-decoration:none;font-size:1.125rem}
+.brand-accent{color:var(--accent)}
+.nav-links{list-style:none;padding:0;margin:0;display:flex;gap:.5rem}
+.nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .75rem;border-radius:8px;display:inline-block}
+.nav-links a:hover{background:rgba(255,255,255,0.03);color:var(--white)}
+
+/* Layout */
+.main{padding:2rem 0}
+.grid{display:grid;gap:1rem}
+.grid-cols-3{grid-template-columns:repeat(3,1fr)}
+.grid-cols-2{grid-template-columns:repeat(2,1fr)}
+
+.card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.04);
+    padding:1rem;border-radius:var(--radius);box-shadow:0 6px 18px rgba(2,6,23,0.6)
+}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-600));color:var(--white)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.06)}
+
+/* Forms */
+.form-control{display:flex;flex-direction:column;gap:.5rem}
+input[type="text"],input[type="email"],textarea,select{
+    background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--white);padding:.6rem .8rem;border-radius:8px
+}
+input:focus,textarea:focus,select:focus{outline:none;box-shadow:0 0 0 4px rgba(6,182,212,0.08);border-color:var(--accent)}
+
+/* Footer */
+.footer{padding:1.25rem 0;text-align:center;color:var(--muted);border-top:1px solid rgba(255,255,255,0.03);margin-top:2rem}
+
+/* Utilities */
+.muted{color:var(--muted)}
+.text-center{text-align:center}
+.mb-1{margin-bottom:.5rem}
+.mb-2{margin-bottom:1rem}
+
+/* Responsive */
+@media (max-width:900px){
+    .grid-cols-3{grid-template-columns:1fr}
+    .grid-cols-2{grid-template-columns:1fr}
+    .nav-links{display:none}
+}
+
+/* Small UI components */
+.badge{display:inline-block;padding:.25rem .5rem;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);font-size:.8rem}
+.product-card{display:flex;flex-direction:column;gap:.75rem}
+.product-card .title{font-weight:600}
+
+/* Polished inputs for product form */
+.form-row{display:flex;gap:1rem}
+@media (max-width:700px){.form-row{flex-direction:column}}
+
+/* subtle animations */
+.fade-up{transform:translateY(6px);opacity:0;animation:fadeUp .5s forwards}
+@keyframes fadeUp{to{transform:none;opacity:1}}
+
+/* End custom styles */
+
