@@ -1,74 +1,116 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
+@extends('layout.app')
 
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
+@section('content')
 
-    <h1>Listado de productos</h1>
+    <div class="catalog-header">
 
-    @if (session('success'))
-        <div class="success">
-            {{ session('success') }}
-        </div>
-    @endif
+        <div class="catalog-header-top">
 
-    <a href="/product/create">
-        Crear producto
-    </a>
+            <div>
 
-    <hr>
+                <h1>
+                    Listado de productos
+                </h1>
 
-    @forelse ($products as $product)
+                <p>
+                    Administra los productos registrados.
+                </p>
 
-        <div class="product">
+            </div>
 
-            <h2>{{ $product->nombre }}</h2>
-
-            <p>
-                <strong>ID:</strong>
-                {{ $product->id }}
-            </p>
-
-            <p>
-                <strong>Precio:</strong>
-                ${{ number_format($product->precio, 0, ',', '.') }}
-            </p>
-
-            <p>
-                <strong>Descripción:</strong>
-                {{ $product->descripcion }}
-            </p>
-
-            <p>
-                <strong>Categoría:</strong>
-                {{ $product->categoria }}
-            </p>
-
-            @if ($product->urlimagen)
-                <img
-                    src="{{ $product->urlimagen }}"
-                    alt="{{ $product->nombre }}"
-                >
-            @endif
-
-            <br>
-
-            <a href="/product/{{ $product->id }}">
-                Ver producto
+            <a href="/product/create">
+                Crear producto
             </a>
 
         </div>
 
-    @empty
+    </div>
 
-        <p>No hay productos registrados.</p>
 
-    @endforelse
+    @if (session('success'))
 
-</body>
-</html>
+        <div class="success">
+            {{ session('success') }}
+        </div>
+
+    @endif
+
+
+    <div class="command-bar">
+
+        <span>
+            Productos
+        </span>
+
+    </div>
+
+
+    <div class="product-grid-enhanced">
+
+        @forelse ($products as $product)
+
+            <div class="product">
+
+                @if ($product->urlimagen)
+
+                    @php
+                        $imgSrc = $product->urlimagen;
+                        if (!preg_match('/^https?:\/\//i', $imgSrc)) {
+                            $imgSrc = asset($imgSrc);
+                        }
+                    @endphp
+
+                    <img
+                        src="{{ $imgSrc }}"
+                        alt="{{ $product->nombre }}"
+                        class="product-img"
+                    >
+
+                @endif
+
+
+                <h2>
+                    {{ $product->nombre }}
+                </h2>
+
+
+                <p>
+                    {{ $product->descripcion }}
+                </p>
+
+
+                <p>
+                    <strong>
+                        ${{ number_format($product->precio, 0, ',', '.') }}
+                    </strong>
+                </p>
+
+
+                <p>
+
+                    <strong>
+                        Categoría:
+                    </strong>
+
+                    {{ $product->categoria }}
+
+                </p>
+
+
+                <a href="/product/{{ $product->id }}">
+                    Ver producto
+                </a>
+
+            </div>
+
+        @empty
+
+            <p>
+                No hay productos registrados.
+            </p>
+
+        @endforelse
+
+    </div>
+
+@endsection

@@ -1,32 +1,69 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear producto</title>
+@extends('layout.app')
 
-    <link rel="stylesheet" href="/style.css">
-</head>
-<body>
+@section('content')
 
-    <h1>Crear producto</h1>
+    <div class="catalog-header">
+
+        <div class="catalog-header-top">
+
+            <div>
+
+                <h1>
+                    Crear producto
+                </h1>
+
+                <p>
+                    Registra un nuevo producto en el inventario.
+                </p>
+
+            </div>
+
+            <a href="/product">
+                Volver a productos
+            </a>
+
+        </div>
+
+    </div>
+
 
     @if ($errors->any())
+
         <div class="errors">
-            <strong>Hay errores en el formulario:</strong>
+
+            <strong>
+                Hay errores en el formulario:
+            </strong>
 
             <ul>
+
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+
+                    <li>
+                        {{ $error }}
+                    </li>
+
                 @endforeach
+
             </ul>
+
         </div>
+
     @endif
 
-    <form action="/product" method="POST">
+
+    <form
+        action="/product"
+        method="POST"
+    >
+
         @csrf
 
-        <label for="nombre">Nombre:</label>
+
+        <label for="nombre">
+            Nombre:
+        </label>
+
         <input
             type="text"
             id="nombre"
@@ -34,7 +71,11 @@
             value="{{ old('nombre') }}"
         >
 
-        <label for="precio">Precio:</label>
+
+        <label for="precio">
+            Precio:
+        </label>
+
         <input
             type="number"
             id="precio"
@@ -42,13 +83,21 @@
             value="{{ old('precio') }}"
         >
 
-        <label for="descripcion">Descripción:</label>
+
+        <label for="descripcion">
+            Descripción:
+        </label>
+
         <textarea
             id="descripcion"
             name="descripcion"
         >{{ old('descripcion') }}</textarea>
 
-        <label for="categoria">Categoría:</label>
+
+        <label for="categoria">
+            Categoría:
+        </label>
+
         <input
             type="text"
             id="categoria"
@@ -56,7 +105,11 @@
             value="{{ old('categoria') }}"
         >
 
-        <label for="urlimagen">URL de imagen:</label>
+
+        <label for="urlimagen">
+            URL de imagen:
+        </label>
+
         <input
             type="text"
             id="urlimagen"
@@ -64,16 +117,13 @@
             value="{{ old('urlimagen') }}"
         >
 
+
+        <br>
+
         <button type="submit">
             Crear producto
         </button>
+
     </form>
 
-    <br>
-
-    <a href="/product">
-        Volver a productos
-    </a>
-
-</body>
-</html>
+@endsection
