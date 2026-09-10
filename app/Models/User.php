@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class User extends Authenticatable
 {
@@ -23,6 +24,12 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+
+    /**
+     * Use UUIDs for primary keys
+     */
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,5 +52,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class, 'user_id');
     }
 }
