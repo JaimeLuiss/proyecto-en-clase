@@ -51,37 +51,26 @@
 
             <div class="product">
 
-                @if ($product->urlimagen)
+                @php
+                    $imgSrc = $product->urlimagen ?? '';
+                    if ($imgSrc && !preg_match('/^https?:\/\//i', $imgSrc)) {
+                        $imgSrc = asset($imgSrc);
+                    }
+                @endphp
 
-                    @php
-                        $imgSrc = $product->urlimagen;
-                        if (!preg_match('/^https?:\/\//i', $imgSrc)) {
-                            $imgSrc = asset($imgSrc);
-                        }
-                    @endphp
-
-                    <img
-                        src="{{ $imgSrc }}"
-                        alt="{{ $product->nombre }}"
-                        class="product-img"
-                    >
-
+                @if ($imgSrc)
+                    <img src="{{ $imgSrc }}" alt="{{ $product->name ?? $product->nombre }}" class="product-img">
                 @endif
 
 
-                <h2>
-                    {{ $product->nombre }}
-                </h2>
 
+                <h2>{{ $product->name ?? $product->nombre }}</h2>
 
-                <p>
-                    {{ $product->descripcion }}
-                </p>
-
+                <p>{{ $product->description ?? $product->descripcion }}</p>
 
                 <p>
                     <strong>
-                        ${{ number_format($product->precio, 0, ',', '.') }}
+                        ${{ number_format($product->price ?? $product->precio ?? 0, 0, ',', '.') }}
                     </strong>
                 </p>
 
@@ -92,7 +81,7 @@
                         Categoría:
                     </strong>
 
-                    {{ $product->categoria }}
+                    {{ $product->category_id ?? $product->categoria }}
 
                 </p>
 

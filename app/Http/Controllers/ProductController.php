@@ -8,11 +8,9 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(){
-        $listaDeProductos = Product::all();
+        $products = Product::orderBy('created_at', 'desc')->get();
 
-        return view('product.index', compact([
-            'listaDeProductos'
-        ]));
+        return view('product.index', compact('products'));
     }
 
     public function create()
