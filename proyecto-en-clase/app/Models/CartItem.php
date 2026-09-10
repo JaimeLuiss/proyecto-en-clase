@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class CartItem extends Model
 {
-    protected $table = 'products';
+    protected $table = 'cart_items';
     protected $primaryKey = 'id';
 }
