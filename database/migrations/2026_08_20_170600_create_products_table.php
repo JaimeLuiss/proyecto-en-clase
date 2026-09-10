@@ -19,6 +19,7 @@ return new class extends Migration
     $table->string('categoria');
     $table->string('urlimagen')->nullable();
     $table->timestamps();
+    $table->foreign('categoria')->references('name')->on('categories');
    
         });
     }
