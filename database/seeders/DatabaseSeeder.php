@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use App\Models\Product;
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,25 +18,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Create or update a test user
+        DB::table('users')->updateOrInsert(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'email_verified_at' => now(),
+                'password' => bcrypt('password'),
+                'remember_token' => \Illuminate\Support\Str::random(10),
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );    
 
-        User::factory()->create([
-          
-        ]);
+        $categories1 = new Category();
+        $categories1->name = 'Electronics';
+        $categories1->description = 'Electronic devices and gadgets';
+        $categories1->save();
 
-        $categoy1 = new Category();
-        $categoy1->name = 'Tecnologia';
-        $categoy1->description = 'Productos tecnológicos';
-        $categoy1->save();
-
-        $categoy2 = new Category();
-        $categoy2->name = 'Tecnologia';
-        $categoy2->description = 'Productos tecnológicos';
-        $categoy2->save();
-
-        Category::factory(1000)->create();
         Product::factory(100)->create();
-
-
+        Category::factory(1000)->create();
     }
 }

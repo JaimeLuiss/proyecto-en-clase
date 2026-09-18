@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('content')
 
@@ -7,18 +7,14 @@
         <div class="catalog-header-top">
 
             <div>
-
-                <h1>
-                    Crear producto
-                </h1>
+                <h1>Nuevo Producto</h1>
 
                 <p>
-                    Registra un nuevo producto en el inventario.
+                    Registra un nuevo producto.
                 </p>
-
             </div>
 
-            <a href="/product">
+            <a href="{{ route('products.index') }}">
                 Volver a productos
             </a>
 
@@ -26,102 +22,137 @@
 
     </div>
 
-
     @if ($errors->any())
 
         <div class="errors">
 
-            <strong>
-                Hay errores en el formulario:
-            </strong>
+            <strong>Hay errores en el formulario:</strong>
 
             <ul>
-
                 @foreach ($errors->all() as $error)
-
-                    <li>
-                        {{ $error }}
-                    </li>
-
+                    <li>{{ $error }}</li>
                 @endforeach
-
             </ul>
 
         </div>
 
     @endif
 
-
     <form
-        action="/product"
+        action="{{ route('products.store') }}"
         method="POST"
     >
 
         @csrf
 
+        <div>
 
-        <label for="nombre">
-            Nombre:
-        </label>
+            <label for="name">
+                Nombre:
+            </label>
 
-        <input
-            type="text"
-            id="nombre"
-            name="nombre"
-            value="{{ old('nombre') }}"
-        >
+            <input
+                type="text"
+                id="name"
+                name="name"
+                value="{{ old('name') }}"
+            >
 
+            @error('name')
+                <small style="color:red;">
+                    {{ $message }}
+                </small>
+            @enderror
 
-        <label for="precio">
-            Precio:
-        </label>
+        </div>
 
-        <input
-            type="number"
-            id="precio"
-            name="precio"
-            value="{{ old('precio') }}"
-        >
+        <br>
 
+        <div>
 
-        <label for="descripcion">
-            Descripción:
-        </label>
+            <label for="category_id">
+                Categoría:
+            </label>
 
-        <textarea
-            id="descripcion"
-            name="descripcion"
-        >{{ old('descripcion') }}</textarea>
+            <select
+                id="category_id"
+                name="category_id"
+            >
 
+                <option value="">
+                    -- Seleccione una categoría --
+                </option>
 
-        <label for="categoria">
-            Categoría:
-        </label>
+                @foreach ($categories as $category)
 
-        <input
-            type="text"
-            id="categoria"
-            name="categoria"
-            value="{{ old('categoria') }}"
-        >
+                    <option
+                        value="{{ $category->id }}"
+                        {{ old('category_id') == $category->id ? 'selected' : '' }}
+                    >
+                        {{ $category->name }}
+                    </option>
 
+                @endforeach
 
-        <label for="urlimagen">
-            URL de imagen:
-        </label>
+            </select>
 
-        <input
-            type="text"
-            id="urlimagen"
-            name="urlimagen"
-            value="{{ old('urlimagen') }}"
-        >
+            @error('category_id')
+                <small style="color:red;">
+                    {{ $message }}
+                </small>
+            @enderror
 
+        </div>
+
+        <br>
+
+        <div>
+
+            <label for="price">
+                Precio:
+            </label>
+
+            <input
+                type="number"
+                step="0.01"
+                id="price"
+                name="price"
+                value="{{ old('price') }}"
+            >
+
+            @error('price')
+                <small style="color:red;">
+                    {{ $message }}
+                </small>
+            @enderror
+
+        </div>
+
+        <br>
+
+        <div>
+
+            <label for="description">
+                Descripción:
+            </label>
+
+            <textarea
+                id="description"
+                name="description"
+            >{{ old('description') }}</textarea>
+
+            @error('description')
+                <small style="color:red;">
+                    {{ $message }}
+                </small>
+            @enderror
+
+        </div>
 
         <br>
 
         <button type="submit">
-            Crear producto
+            Guardar Producto
         </button>
 
     </form>
