@@ -51,13 +51,14 @@
     @endif
 
     <form
+        class="product-form"
         action="{{ route('products.store') }}"
         method="POST"
     >
 
         @csrf
 
-        <div>
+        <div class="form-field">
             <label for="name">
                 Nombre:
             </label>
@@ -70,7 +71,7 @@
             >
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="category_id">
                 Categoría:
             </label>
@@ -86,7 +87,7 @@
             </select>
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="price">
                 Precio:
             </label>
@@ -100,7 +101,7 @@
             >
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="description">
                 Descripción:
             </label>
@@ -108,7 +109,7 @@
             <textarea id="description" name="description">{{ old('description') }}</textarea>
         </div>
 
-        <div>
+        <div class="form-field">
             <label for="urlimagen">
                 URL de imagen:
             </label>
@@ -121,11 +122,11 @@
             >
         </div>
 
-        <br>
-
-        <button type="submit">
+        <div class="form-actions">
+        <button type="submit" class="btn-primary">
             Crear producto
         </button>
+        </div>
 
     </form>
 

@@ -27,12 +27,19 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{ route('profile.edit') }}">
                     Configuración
                 </a>
             </li>
 
         </ul>
+
+        @auth
+            <form method="POST" action="{{ route('logout') }}" class="logout-form">
+                @csrf
+                <button type="submit" class="nav-logout">Cerrar sesión</button>
+            </form>
+        @endauth
 
     </nav>
 </header>
