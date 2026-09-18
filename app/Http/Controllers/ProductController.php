@@ -3,92 +3,67 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
-    public function index(){
-        $products = Product::orderBy('created_at', 'desc')->get();
+    public function index()
+    {
+        // Cargamos la categoría junto con cada producto
+        // para evitar consultas innecesarias.
+        $products = Product::with('category')
+            ->latest()
+            ->paginate(10);
 
-        return view('product.index', compact('products'));
+        return view('products.index', compact('products'));
     }
 
     public function create()
     {
-        return view('product.create');
+        // Necesitamos las categorías para el formulario.
+        $categories = Category::all();
+
+        return view('products.create', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric|min:0',
-            'descripcion' => 'required|string',
-            'categoria' => 'required|string|max:255',
-            'urlimagen' => 'nullable|url'
-        ]);
+        Product::create($request->validated());
 
-        $product = Product::create([
-            'nombre' => $request->nombre,
-            'precio' => $request->precio,
-            'descripcion' => $request->descripcion,
-            'categoria' => $request->categoria,
-            'urlimagen' => $request->urlimagen
-        ]);
-
-        return redirect('/product')
+        return redirect()
+            ->route('products.index')
             ->with('success', 'Producto creado correctamente.');
     }
 
-    public function show($idProduct)
+    public function show(Product $product)
     {
-        $product = Product::findOrFail($idProduct);
-
-        return view('product.show', [
-            'product' => $product
-        ]);
+        return view('products.show', compact('product'));
     }
 
-    public function edit($idProduct)
+    public function edit(Product $product)
     {
-        $product = Product::findOrFail($idProduct);
+        // Necesitamos las categorías para poder cambiarla.
+        $categories = Category::all();
 
-        return view('product.edit', [
-            'product' => $product
-        ]);
+        return view('products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, $idProduct)
+    public function update(ProductRequest $request, Product $product)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'precio' => 'required|numeric|min:0',
-            'descripcion' => 'required|string',
-            'categoria' => 'required|string|max:255',
-            'urlimagen' => 'nullable|url'
-        ]);
+        $product->update($request->validated());
 
-        $product = Product::findOrFail($idProduct);
-
-        $product->update([
-            'nombre' => $request->nombre,
-            'precio' => $request->precio,
-            'descripcion' => $request->descripcion,
-            'categoria' => $request->categoria,
-            'urlimagen' => $request->urlimagen
-        ]);
-
-        return redirect('/product')
+        return redirect()
+            ->route('products.index')
             ->with('success', 'Producto actualizado correctamente.');
     }
 
-    public function destroy($idProduct)
+    public function destroy(Product $product)
     {
-        $product = Product::findOrFail($idProduct);
-
         $product->delete();
 
-        return redirect('/product')
+        return redirect()
+            ->route('products.index')
             ->with('success', 'Producto eliminado correctamente.');
     }
 }
